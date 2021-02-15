@@ -25,3 +25,10 @@ end
     price: 10
   )
 end
+
+5.times do
+  Attendance.create!(
+    attendee_id: User.all.sample.id,
+    event_id: Event.all.sample.id
+  )
+end
