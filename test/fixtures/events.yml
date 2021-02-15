@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  start_date: 2021-02-15
+  duration: 1
+  price: 1.5
+
+two:
+  title: MyString
+  description: MyText
+  start_date: 2021-02-15
+  duration: 1
+  price: 1.5
