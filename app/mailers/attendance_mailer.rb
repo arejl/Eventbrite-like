@@ -4,7 +4,7 @@ class AttendanceMailer < ApplicationMailer
   def new_attendee(attendance)
     @attendance = attendance
     @attendee = @attendance.attendee
-    @event = @attendance.event
+    @event = @attendance.attended_event
     @user = @event.admin
     @url  = 'http://monsite.fr/login' 
     mail(to: @user.email, subject: 'Nouveau participant à ton événement !') 
