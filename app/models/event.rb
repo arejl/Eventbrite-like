@@ -21,6 +21,11 @@ class Event < ApplicationRecord
   has_many :attendances
   has_many :attendees, class_name: "User", through: :attendances
 
+  after_create :event_recap
+  def event_recap
+    EventMailer.new_event(self).deliver_now
+  end
+
   def is_past?
     errors.add(:start_date, "Cannot create an event in the past") unless self.start_date > DateTime.now
   end
