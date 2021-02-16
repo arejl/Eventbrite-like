@@ -3,14 +3,15 @@ require 'faker'
 User.destroy_all
 Event.destroy_all
 
-10.times do
+5.times do
   chosen_first_name = Faker::Name.first_name
   chosen_last_name = Faker::Name.last_name
   User.create!(
     first_name: chosen_first_name,
     last_name: chosen_last_name,
     description: "#{Faker::Job.title} in the #{Faker::Job.field} sector",
-    email: "#{chosen_first_name.downcase}@yopmail.com"
+    email: "#{chosen_first_name.downcase}@yopmail.com",
+    password: "password"
   )
 end
 
@@ -26,9 +27,9 @@ end
   )
 end
 
-5.times do
-  Attendance.create!(
-    attendee_id: User.all.sample.id,
-    attended_event_id: Event.all.sample.id
-  )
-end
+# 5.times do
+#   Attendance.create!(
+#     attendee_id: User.all.sample.id,
+#     attended_event_id: Event.all.sample.id
+#   )
+# end
