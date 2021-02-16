@@ -4,7 +4,6 @@ class Event < ApplicationRecord
     if: :is_past?
   validates :duration,
     presence: true,
-    numericality: { greater_than: 0 },
     if: :multiple_of_5?
   validates :title,
     presence: true,
@@ -28,10 +27,16 @@ class Event < ApplicationRecord
   end
 
   def is_past?
-    errors.add(:start_date, "Cannot create an event in the past") unless self.start_date > DateTime.now
+    if !self.start_date.nil?
+      errors.add(:start_date, "Cannot create an event in the past") unless self.start_date >= DateTime.now
+    end
   end
 
   def multiple_of_5?
-    errors.add(:duration, "Duration must be a multiple of five") unless self.duration % 5 == 0
+    if !self.duration.nil?
+      errors.add(:duration, "must be a multiple of five") unless self.duration % 5 == 0 && self.duration > 0
+    else
+      errors.add(:duration, "must not be nil")
+    end
   end
 end
