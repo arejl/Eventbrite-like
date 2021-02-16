@@ -21,6 +21,9 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    if !has_permission?(set_user)
+      redirect_to root_path
+    end
   end
 
   # POST /users or /users.json
