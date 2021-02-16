@@ -1,29 +1,46 @@
-<p id="notice"><%= notice %></p>
+<div class="container pt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+    <p id="notice"><%= notice %></p>
+    <br><br><br>
+    <p>
+      <strong>Titre :</strong>
+      <%= @event.title %>
+    </p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @event.title %>
-</p>
+    <p>
+      <strong>Description :</strong>
+      <%= @event.description %>
+    </p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @event.description %>
-</p>
+    <p>
+      <strong>Date de début :</strong>
+      <%= @event.start_date.strftime("Le %d/%m/%Y à %H:%M") %>
+    </p>
 
-<p>
-  <strong>Start date:</strong>
-  <%= @event.start_date %>
-</p>
+    <p>
+      <strong>Date de fin :</strong>
+      <%= @event.end_date.strftime("Le %d/%m/%Y à %H:%M") %>
+    </p>
 
-<p>
-  <strong>Duration:</strong>
-  <%= @event.duration %>
-</p>
+    <p>
+      <strong>Prix :</strong>
+      <%= @event.price %> €
+    </p>
 
-<p>
-  <strong>Price:</strong>
-  <%= @event.price %>
-</p>
+    <p>
+      <strong>Emplacement :</strong>
+      <%= @event.location %>
+    </p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+    <p>
+      <strong>Organisé par :</strong>
+      <%= @event.admin.first_name %> <%= @event.admin.last_name %>
+    </p>    
+    <%if has_permission?(@event.admin)%>
+    <%= link_to 'Modifier', edit_event_path(@event), class: "btn btn-primary" %>
+    <%end%>
+    <%= link_to 'Retour', root_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

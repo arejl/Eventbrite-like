@@ -1,20 +1,44 @@
-<p id="notice"><%= notice %></p>
+<div class="container pt-4">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+    <p id="notice"><%= notice %></p>
+      <h1>Profil de <%= @user.first_name%> <%= @user.last_name%></h1>
+      <p>
+        <strong> Prénom :</strong>
+        <%= @user.first_name %>
+      </p>
 
-<p>
-  <strong>First name:</strong>
-  <%= @user.first_name %>
-</p>
+      <p>
+        <strong>Nom :</strong>
+        <%= @user.last_name %>
+      </p>
 
-<p>
-  <strong>Last name:</strong>
-  <%= @user.last_name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @user.description %>
-</p>
-
-<%= link_to 'Modifier mon profil', edit_user_path(@user) %> |
-<%= link_to 'Modifier mes identifiants de connexion', edit_user_registration_path(@user) %> |
-<%= link_to 'Retour', users_path %>
+      <p>
+        <strong>Description :</strong>
+        <%= @user.description %>
+      </p>
+      <p class="text-center pt-5">
+        <%= link_to 'Modifier mon profil', edit_user_path(@user), class: "btn btn-primary mx-2 my-2"  %>
+        <%= link_to 'Modifier mes identifiants de connexion', edit_user_registration_path(@user), class: "btn btn-primary mx-2 my-2" %>
+      </p>
+      <h5>Les événements organisés par <%= @user.first_name%> :</h5>
+          <div id="event-list" class="mx-auto d-flex flex-wrap justify-content-center">
+      <% @events.where(admin_id:@user.id).order("created_at DESC").each do |event| %>
+      <div class="card my-2 mx-4" style="width: 18rem;">
+        <div class="card-header">
+          Proposé par <%= event.admin.first_name %>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Titre : <%= event.title %></h5>
+          <p><%= event.description%></p>
+          <div class="d-flex align-items-center justify-content-center pt-2">
+            <%= link_to "En voir plus", event, class: "btn btn-secondary" %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+      <%= link_to 'Retour', root_path, class: "btn btn-secondary mx-2 my-2" %>
+    </div>
+  </div>
+</div>

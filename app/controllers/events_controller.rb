@@ -17,6 +17,9 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    if !has_permission?(@event.admin)
+      redirect_to root_path
+    end
   end
 
   # POST /events or /events.json

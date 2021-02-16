@@ -1,35 +1,35 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Events</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Start date</th>
-      <th>Duration</th>
-      <th>Price</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @events.each do |event| %>
-      <tr>
-        <td><%= event.title %></td>
-        <td><%= event.description %></td>
-        <td><%= event.start_date %></td>
-        <td><%= event.duration %></td>
-        <td><%= event.price %></td>
-        <td><%= link_to 'Show', event %></td>
-        <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Event', new_event_path %>
+<div class="jumbotron" style="height:100vh; background-image: url('https://wallpapershome.com/images/pages/pic_h/2028.jpg'); background-size:cover">
+  <p id="notice"><%= notice %></p>
+  <div class="inner text-right p-5 mt-5">
+    <h1><strong  class="text-light">Bienvenue sur le digne héritier d'Eventbrite !</strong></h1>
+    <h2 class="text-light">Tu veux des événements ? On en a plein</h2>
+    <%=link_to "Voir la liste des événements", {anchor: "event-list"}, class: "btn btn-secondary py-2 my-2" %>
+  </div>
+</div>
+<span id="event-list" class="py-5"> </span>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="h1 mb-3 font-weight-normal text-center">Tous les événements</h1>
+    </div>  
+    <div class="mx-auto d-flex flex-wrap justify-content-center">
+      <% @events.order("created_at DESC").each do |event| %>
+        <div class="card my-2 mx-4" style="width: 18rem;">
+          <div class="card-header">
+            Proposé par <%= event.admin.first_name %>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Titre : <%= event.title %></h5>
+            <p><%= event.description%></p>
+            <div class="d-flex align-items-center justify-content-center pt-2">
+              <%= link_to "En voir plus", event, class: "btn btn-secondary" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="mx-auto text-center py-3">
+      <%= link_to 'Créer un événement', new_event_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>

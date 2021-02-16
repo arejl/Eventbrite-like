@@ -1,5 +1,15 @@
-<h1>New Event</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <br><br><br>
+      <h1 class="h3 mb-3 font-weight-normal text-center">Créer un événement</h1>
 
-<%= render 'form', event: @event %>
+      <%= render 'form', event: @event %>
 
-<%= link_to 'Back', events_path %>
+      <p class="text-center pt-3">
+        <%= link_to "Retour à l'accueil", root_path, class: "btn btn-secondary mx-2" %>
+      </p>
+    </div>
+  </div>
+</div>
+

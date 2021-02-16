@@ -39,4 +39,8 @@ class Event < ApplicationRecord
       errors.add(:duration, "must not be nil")
     end
   end
+
+  def end_date
+    return (self.start_date + self.duration*60)
+  end
 end
