@@ -1,5 +1,9 @@
 <div class="jumbotron" style="height:100vh; background-image: url('https://wallpapershome.com/images/pages/pic_h/2028.jpg'); background-size:cover">
-  <p id="notice"><%= notice %></p>
+  <% flash.each do |type, message|%>
+    <div class="alert alert-<%= type %>" role="alert">
+      <%= message %>
+    </div>
+  <% end %>  
   <div class="inner text-right p-5 mt-5">
     <h1><strong  class="text-light">Bienvenue sur le digne héritier d'Eventbrite !</strong></h1>
     <h2 class="text-light">Tu veux des événements ? On en a plein</h2>

@@ -1,29 +1,34 @@
-<p id="notice"><%= notice %></p>
+<div class="container pt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+    <p id="notice"><%= notice %></p>
+    <br><br><br>
+    <h1 class="h3 mb-3 font-weight-normal text-center">Administration de votre événement <%= @event.title%> : </h1>
 
-<h1>Attendances</h1>
+    <h5>Participants</h5>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nom</th>
+          <th scope="col">Email</th>
+        </tr>
+      </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Event</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+      <tbody>
+        <% @attendances.each do |attendance| %>
+          <tr scope="row">
+            <td><%= attendance.attendee.first_name %> <%= attendance.attendee.last_name %></td>
+            <td><%= attendance.attendee.email %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-  <tbody>
-    <% @attendances.each do |attendance| %>
-      <tr>
-        <td><%= attendance.user_id %></td>
-        <td><%= attendance.event_id %></td>
-        <td><%= link_to 'Show', attendance %></td>
-        <td><%= link_to 'Edit', edit_attendance_path(attendance) %></td>
-        <td><%= link_to 'Destroy', attendance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Attendance', new_attendance_path %>
+    <br>
+    <h5>Détail de l'événement</h5>
+    <%= link_to "Modifier les détails de l'événement", edit_event_path(@event), class: "btn btn-block btn-primary" %>
+    <br>
+    <%= link_to "Retour à l'événement", @event, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

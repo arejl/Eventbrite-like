@@ -13,7 +13,7 @@ class Event < ApplicationRecord
     length: { in: 20..1000 }
   validates :price,
     presence: true,
-    numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 1000 }    
+    numericality: { less_than_or_equal_to: 1000 }    
   validates :location,
     presence: true
 
@@ -42,5 +42,9 @@ class Event < ApplicationRecord
 
   def end_date
     return (self.start_date + self.duration*60)
+  end
+
+  def is_free?
+    self.price == 0
   end
 end

@@ -1,50 +1,42 @@
 class AttendancesController < ApplicationController
   before_action :set_attendance, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!
+  before_action :check_permission, only: [:index, :destroy]
+  before_action :already_subscribed, only: [:new, :create]
+  before_action :free_subscription, only: [:new, :create]
   # GET /attendances or /attendances.json
   def index
-    @attendances = Attendance.all
-  end
-
-  # GET /attendances/1 or /attendances/1.json
-  def show
+    @event = Event.find(params[:event_id])
+    @attendances = @event.attendances    
   end
 
   # GET /attendances/new
   def new
-    @attendance = Attendance.new
+    @user = current_user
+    @event = Event.find(params[:event_id])
+    @stripe_amount = (@event.price*100.to_i)
   end
 
-  # GET /attendances/1/edit
-  def edit
-  end
-
-  # POST /attendances or /attendances.json
   def create
-    @attendance = Attendance.new(attendance_params)
-
-    respond_to do |format|
-      if @attendance.save
-        format.html { redirect_to @attendance, notice: "Attendance was successfully created." }
-        format.json { render :show, status: :created, location: @attendance }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @attendance.errors, status: :unprocessable_entity }
-      end
+    @user = current_user
+    @event = Event.find(params[:event_id])
+    @stripe_amount = (@event.price*100.to_i)
+    begin 
+      customer = Stripe::Customer.create({
+      email: params[:stripeEmail],
+      source: params[:stripeToken],
+      })  
+      charge = Stripe::Charge.create({
+      customer: customer.id,
+      amount: @stripe_amount,
+      description: "Achat d'un produit",
+      currency: 'eur',
+      })
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to new_event_attendance_path
     end
-  end
-
-  # PATCH/PUT /attendances/1 or /attendances/1.json
-  def update
-    respond_to do |format|
-      if @attendance.update(attendance_params)
-        format.html { redirect_to @attendance, notice: "Attendance was successfully updated." }
-        format.json { render :show, status: :ok, location: @attendance }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @attendance.errors, status: :unprocessable_entity }
-      end
-    end
+    @event.attendances << Attendance.create(attendee_id:current_user.id, attended_event_id: @event.id, stripe_customer_id:customer.id)
   end
 
   # DELETE /attendances/1 or /attendances/1.json
@@ -65,5 +57,33 @@ class AttendancesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def attendance_params
       params.require(:attendance).permit(:user_id, :event_id)
+    end
+
+    def check_permission
+      @event = Event.find(params[:event_id])
+      if !has_permission?(@event.admin)
+        redirect_to root_path
+        flash[:danger] = "Tu ne peux pas voir le détail d'un événement dont tu n'es pas administrateur."
+      end
+    end
+
+    def already_subscribed
+      @event = Event.find(params[:event_id])
+      if !current_user.nil? && !Attendance.where(attendee_id: current_user.id, attended_event_id:@event.id).empty?
+        redirect_to @event
+        flash[:warning] = "Tu es déjà inscrit !"
+      elsif current_user == @event.admin
+        redirect_to @event
+        flash[:warning] = "Tu ne peux pas t'inscrire à ton propre événement !"
+      end
+    end
+
+    def free_subscription
+      @event = Event.find(params[:event_id])
+      if @event.is_free?
+        @event.attendances << Attendance.create(attendee_id:current_user.id, attended_event_id: @event.id)
+        redirect_to @event
+        flash[:success] = "Tu es inscrit à cet événement gratuit !"
+      end
     end
 end

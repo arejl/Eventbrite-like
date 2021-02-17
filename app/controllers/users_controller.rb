@@ -1,16 +1,15 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :check_permission, except: [:new, :create, :index]
   # GET /users or /users.json
   def index
     redirect_to root_path
+    flash[:danger] = "Tu ne peux pas accéder au profil d'autres utilisateurs."
     @users = User.all
   end
 
   # GET /users/1 or /users/1.json
   def show
-    if !has_permission?(set_user)
-      redirect_to root_path
-    end
     @events = Event.all
   end
 
@@ -21,9 +20,6 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    if !has_permission?(set_user)
-      redirect_to root_path
-    end
   end
 
   # POST /users or /users.json
@@ -72,5 +68,12 @@ class UsersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def user_params
       params.require(:user).permit(:email, :first_name, :last_name, :description, :password_digest)
+    end
+
+    def check_permission
+      if !has_permission?(set_user)        
+        redirect_to root_path
+        flash[:danger] = "Tu ne peux pas accéder au profil d'autres utilisateurs."
+      end
     end
 end

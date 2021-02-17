@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :check_permission, only: [:edit, :update, :destroy]
   # GET /events or /events.json
   def index
     @events = Event.all
@@ -17,9 +18,6 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    if !has_permission?(@event.admin)
-      redirect_to root_path
-    end
   end
 
   # POST /events or /events.json
@@ -69,5 +67,12 @@ class EventsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def event_params
       params.require(:event).permit(:title, :description, :start_date, :duration, :price, :location)
+    end
+
+    def check_permission
+      if !has_permission?(@event.admin)
+        redirect_to root_path
+        flash[:danger] = "Tu ne peux pas modifier un événement dont tu n'es pas administrateur."
+      end
     end
 end
