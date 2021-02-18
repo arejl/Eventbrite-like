@@ -10,7 +10,7 @@
                 <%if @user.avatar.attached?%>
                   <%= image_tag @user.avatar, alt: 'avatar', style:"width:100%" %>
                 <%else%>
-                  <%=image_tag "images/default-icon.webp" %>
+                  <%=image_tag "default-icon.webp", alt: 'default-avatar', style:"width:100%" %>
                 <%end%>
                 <div>
                 <%= link_to 'Modifier mon avatar', new_user_avatar_path(@user), class: "btn btn-success mx-2 my-2" %>

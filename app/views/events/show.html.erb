@@ -1,17 +1,17 @@
-<div class="container pt-5">
+<div class="jumbotron" style="height:50vh; background-image: url(<%= rails_blob_url(@event.banner)%>);background-position: center;  background-size:cover">
+  <p id="notice"><%= notice %></p>
+  <% flash.each do |type, message|%>
+    <div class="alert alert-<%= type %>" role="alert">
+      <%= message %>
+    </div>
+  <% end %>
+</div>
+
+<div class="container">
   <div class="row">
     <div class="col-md-6 offset-md-3">
-    <p id="notice"><%= notice %></p>
-    <% flash.each do |type, message|%>
-      <div class="alert alert-<%= type %>" role="alert">
-        <%= message %>
-      </div>
-    <% end %> 
-    <br><br><br>
-    <p>
-      <strong>Titre :</strong>
-      <%= @event.title %>
-    </p>
+      <h3 class="mb-3"><strong>Titre :</strong>
+      <%= @event.title %></h3>
 
     <p>
       <strong>Description :</strong>

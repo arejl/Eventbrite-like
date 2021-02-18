@@ -16,10 +16,13 @@ class Event < ApplicationRecord
     numericality: { less_than_or_equal_to: 1000 }    
   validates :location,
     presence: true
+  validates :banner,
+    presence: true
 
   belongs_to :admin, class_name: "User"
   has_many :attendances, foreign_key: 'attended_event_id', dependent: :destroy
   has_many :attendees, foreign_key: 'attended_event_id', class_name: "User", through: :attendances
+  has_one_attached :banner
 
   after_create :event_recap
   def event_recap

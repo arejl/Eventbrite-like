@@ -16,7 +16,7 @@ Event.destroy_all
 end
 
 5.times do
-  Event.create!(
+  new_event = Event.new(
     admin_id: User.all.sample.id,
     title: Faker::Lorem.characters(number: 10),
     description: Faker::Lorem.characters(number: 30),
@@ -25,11 +25,13 @@ end
     location: Faker::Address.city,
     price: 10
   )
+  new_event.banner.attach(io: File.open(File.join(Rails.root, 'app', 'assets', 'images', 'default-banner.jpg')), filename: 'default-banner.jpg')
+  new_event.save
 end
 
-# 5.times do
-#   Attendance.create!(
-#     attendee_id: User.all.sample.id,
-#     attended_event_id: Event.all.sample.id
-#   )
-# end
+5.times do
+  Attendance.create!(
+    attendee_id: User.all.sample.id,
+    attended_event_id: Event.all.sample.id
+  )
+end

@@ -24,7 +24,6 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.admin = current_user
-
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: "Event was successfully created." }
@@ -66,7 +65,7 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:title, :description, :start_date, :duration, :price, :location)
+      params.require(:event).permit(:title, :description, :start_date, :duration, :price, :location, :banner)
     end
 
     def check_permission
