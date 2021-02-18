@@ -1,23 +1,30 @@
-<h1>Bienvenue sur ma page de paiement, <%= @user.first_name %> !</h1>
-<p>Vous avez choisi le produit <%= @event.title %>.</p>
+<div class="container pt-4" style="height:100vh">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto text-center">
+      <br><br><br>
+      <h1 class="h3 mb-3 font-weight-normal ">Bienvenue sur ma page de paiement, <%= @user.first_name %> !</h1>
+      <p>Vous avez choisi l'événement intitulé : <%= @event.title %>.</p>
 
-<%= form_tag event_attendances_path do %>
-<article>
-  <% if flash[:error].present? %>
-    <div id="error_explanation">
-      <p><%= flash[:error] %></p>
+      <%= form_tag event_attendances_path do %>
+      <article>
+        <% if flash[:error].present? %>
+          <div id="error_explanation">
+            <p><%= flash[:error] %></p>
+          </div>
+        <% end %>
+        <label class="amount">
+          <span>Montant : <%=@event.price%> €</span>
+        </label>
+      </article><script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-description="Participation à un événement"
+          data-amount="<%=@stripe_amount%>"
+          data-currency="eur"
+          data-locale="auto">
+      </script>
+      <% end %>
+
+      <%= link_to 'Back', @event %>
     </div>
-  <% end %>
-  <label class="amount">
-    <span>Montant : <%=@event.price%> €</span>
-  </label>
-</article><script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-    data-description="Participation à un événement"
-    data-amount="<%=@stripe_amount%>"
-    data-currency="eur"
-    data-locale="auto">
-</script>
-<% end %>
-
-<%= link_to 'Back', @event %>
+  </div>
+</div>

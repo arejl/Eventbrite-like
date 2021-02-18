@@ -1,4 +1,11 @@
-<h1>Votre paiement est confirmé.</h1>
-<h2>Merci <%= @user.first_name %> pour votre achat de <strong><%= @event.price %> €</strong> !</h2>
-<p>Un email vous a été envoyé à <%= @user.email %> avec le récapitulatif de votre commande.</p>
-<%= link_to "Retour à l'accueil", root_path %>
+<div class="container pt-4" style="height:100vh">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto text-center">
+    <br><br><br>
+    <h1 class="h3 mb-3 font-weight-normal">Votre paiement est confirmé.</h1>
+    <h5>Merci <%= @user.first_name %> pour votre achat de <strong><%= @event.price %> €</strong> !</h5>
+    <p>Un email vous a été envoyé à <%= @user.email %> avec le récapitulatif de votre commande.</p>
+    <%= link_to "Retour à l'accueil", root_path %>
+    </div>
+  </div>
+</div>

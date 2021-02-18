@@ -36,7 +36,9 @@ class AttendancesController < ApplicationController
       flash[:error] = e.message
       redirect_to new_event_attendance_path
     end
-    @event.attendances << Attendance.create(attendee_id:current_user.id, attended_event_id: @event.id, stripe_customer_id:customer.id)
+    if !customer.nil?
+      @event.attendances << Attendance.create(attendee_id:current_user.id, attended_event_id: @event.id, stripe_customer_id:customer.id)
+    end
   end
 
   # DELETE /attendances/1 or /attendances/1.json
