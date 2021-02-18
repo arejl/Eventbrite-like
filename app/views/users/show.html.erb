@@ -3,20 +3,38 @@
     <div class="col-lg-8 col-md-10 mx-auto">
     <p id="notice"><%= notice %></p>
       <h1>Profil de <%= @user.first_name%> <%= @user.last_name%></h1>
-      <p>
-        <strong> Prénom :</strong>
-        <%= @user.first_name %>
-      </p>
+        <table>
+          <tbody>
+              <tr>
+                <td style="width: 25%" class="align-middle">
+                <%if @user.avatar.attached?%>
+                  <%= image_tag @user.avatar, alt: 'avatar', style:"width:100%" %>
+                <%else%>
+                  <%=image_tag "images/default-icon.webp" %>
+                <%end%>
+                <div>
+                <%= link_to 'Modifier mon avatar', new_user_avatar_path(@user), class: "btn btn-success mx-2 my-2" %>
+                </div>
+                </td>
+                <td class="align-middle" style="width: 75%" >
+                  <p>
+                    <strong> Prénom :</strong>
+                    <%= @user.first_name %>
+                  </p>
 
-      <p>
-        <strong>Nom :</strong>
-        <%= @user.last_name %>
-      </p>
+                  <p>
+                    <strong>Nom :</strong>
+                    <%= @user.last_name %>
+                  </p>
 
-      <p>
-        <strong>Description :</strong>
-        <%= @user.description %>
-      </p>
+                  <p>
+                    <strong>Description :</strong>
+                    <%= @user.description %>
+                  </p>
+                </td>
+              </tr>
+          </tbody>
+        </table>    
       <p class="text-center pt-5">
         <%= link_to 'Modifier mon profil', edit_user_path(@user), class: "btn btn-primary mx-2 my-2"  %>
         <%= link_to 'Modifier mes identifiants de connexion', edit_user_registration_path(@user), class: "btn btn-primary mx-2 my-2" %>

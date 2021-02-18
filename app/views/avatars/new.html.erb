@@ -1,0 +1,23 @@
+  <div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <br><br><br>
+      <h1 class="h3 mb-3 font-weight-normal text-center">Changer mon avatar</h1>
+
+        <%= form_tag user_avatars_path(@user), multipart: true do %>
+        <div class="form-group">
+          <%= label_tag 'avatar', "Votre photo de profil" %>
+          <%= file_field_tag :avatar %>
+        </div>
+        <div class="actions">
+          <%= submit_tag "Mettre à jour mon avatar", class: "btn btn-primary btn-block" %>
+        </div>
+        <%end%>
+      
+      <p class="text-center pt-5">
+        <%= link_to 'Retour à mon profil', @user, class: "btn btn-secondary mx-2" %>
+        <%= link_to "Retour à l'accueil", root_path, class: "btn btn-secondary mx-2" %>
+      </p>
+    </div>
+  </div>
+</div>
